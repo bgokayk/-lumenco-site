@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumen Co. — Görünür Olmanın Sanatı</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ─────────────────────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#080C0E; --dark:#0D1117; --card:#141B22; --card2:#1A2332;
+  --yellow:#FAB617; --teal:#0D9488; --teal2:#14B8A6;
+  --blue:#2563EB; --purple:#7C3AED; --pink:#EC4899; --green:#22C55E;
+  --white:#FFFFFF; --gray:#94A3B8; --gray2:#334155;
+  --nav-h:60px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--yellow)}
+a{text-decoration:none;color:inherit}
+
+/* ── COLOR BAR ───────────────────────────────────────────────────────────── */
+.cbar{height:3px;display:flex;position:fixed;top:0;left:0;right:0;z-index:200}
+.cbar div{flex:1}
+
+/* ── NAV ─────────────────────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:3px;left:0;right:0;z-index:100;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;
+  background:rgba(8,12,14,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(250,182,23,0.12);
+  transition:border-color .3s;
+}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.08em}
+.logo span{color:var(--yellow)}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{
+  font-family:'DM Mono',monospace;font-size:.72rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gray);
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--yellow)}
+.nav-cta{
+  background:var(--yellow);color:var(--black);
+  font-family:'DM Mono',monospace;font-size:.72rem;
+  font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:.5rem 1.3rem;border:none;cursor:pointer;transition:opacity .2s;
+}
+.nav-cta:hover{opacity:.85}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.3rem}
+.hamburger span{display:block;width:22px;height:2px;background:var(--white);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ── MOBİL MENÜ ──────────────────────────────────────────────────────────── */
+.mob-menu{
+  display:none;position:fixed;inset:0;z-index:99;
+  background:rgba(8,12,14,.97);backdrop-filter:blur(20px);
+  flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;
+}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.06em;color:var(--white);transition:color .2s}
+.mob-menu a:hover{color:var(--yellow)}
+.mob-cta{background:var(--yellow)!important;color:var(--black)!important;padding:.8rem 2.5rem;font-family:'DM Mono',monospace!important;font-size:.85rem!important;letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem}
+
+/* ── HERO ────────────────────────────────────────────────────────────────── */
+#hero{
+  min-height:100vh;
+  padding-top:calc(var(--nav-h) + 3px + 2rem);
+  padding-bottom:2rem;
+  padding-left:2.5rem;
+  padding-right:2.5rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2rem;
+  align-items:center;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 55% 50% at 75% 25%,rgba(250,182,23,.06),transparent 60%),
+    radial-gradient(ellipse 45% 55% at 10% 75%,rgba(13,148,136,.05),transparent 60%);
+}
+.hero-l,.hero-r{position:relative;z-index:1}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gray);
+  margin-bottom:1rem;
+}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--yellow);box-shadow:0 0 8px var(--yellow)}
+h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,8vw,8rem);
+  line-height:.9;letter-spacing:.02em;
+}
+h1 .acc{color:var(--yellow);display:block}
+.hero-sub{font-size:1rem;color:var(--teal2);font-style:italic;margin:1rem 0 1.5rem;font-weight:300}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn-y{background:var(--yellow);color:var(--black);font-family:'DM Mono',monospace;font-size:.78rem;font-weight:600;letter-spacing:.08em;padding:.75rem 1.8rem;border:none;cursor:pointer;text-transform:uppercase;transition:opacity .2s}
+.btn-y:hover{opacity:.85}
+.btn-o{background:transparent;color:var(--white);font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.08em;padding:.75rem 1.8rem;border:1px solid var(--gray2);cursor:pointer;text-transform:uppercase;transition:all .2s}
+.btn-o:hover{border-color:var(--yellow);color:var(--yellow)}
+.srv-tag{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:.6rem}
+.srv-item{
+  display:flex;align-items:center;gap:.9rem;
+  padding:.6rem 1rem;
+  background:rgba(20,27,34,.7);
+  border:1px solid rgba(255,255,255,.05);
+  border-left:2px solid var(--c,var(--teal));
+  cursor:pointer;transition:all .2s;margin-bottom:.35rem;
+}
+.srv-item:hover{background:var(--card2);border-left-width:3px;transform:translateX(3px)}
+.srv-item:last-child{margin-bottom:0}
+.si-icon{font-size:.95rem;flex-shrink:0}
+.si-name{font-size:.82rem;font-weight:600;line-height:1.3}
+.si-sub{font-size:.7rem;color:var(--gray);font-family:'DM Mono',monospace;margin-top:.1rem}
+.si-arr{margin-left:auto;color:var(--gray);font-size:.8rem;flex-shrink:0;transition:transform .2s}
+.srv-item:hover .si-arr{transform:translateX(3px);color:var(--yellow)}
+
+/* ── STATS ───────────────────────────────────────────────────────────────── */
+#stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray2)}
+.st{background:var(--card);padding:1.6rem 1.2rem;text-align:center}
+.st-n{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--c,var(--yellow));line-height:1}
+.st-l{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:.3rem}
+
+/* ── SECTION BASE ─────────────────────────────────────────────────────────── */
+.sec{padding:5rem 2.5rem}
+.sec-tag{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+.sec-tag::before{content:'—';opacity:.4}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,4.5vw,4rem);letter-spacing:.03em;line-height:1;margin-bottom:.6rem}
+h2 .hl{color:var(--yellow)}
+
+/* ── SERVİCES GRİD ───────────────────────────────────────────────────────── */
+#services{background:var(--black)}
+.svc-intro{display:grid;grid-template-columns:1fr 2fr;gap:3rem;margin-bottom:2.5rem}
+.svc-desc{color:var(--gray);line-height:1.8;font-size:.9rem;padding-top:2rem}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray2)}
+.svc-card{
+  background:var(--card);padding:1.5rem 1.2rem;
+  border-top:2px solid var(--c,var(--teal));
+  cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+}
+.svc-card:hover{background:var(--card2);transform:translateY(-2px)}
+.svc-card:hover .sc-arr{opacity:1;transform:translateX(0)}
+.sc-icon{font-size:1.3rem;margin-bottom:.8rem;display:block}
+.sc-title{font-size:.85rem;font-weight:700;margin-bottom:.3rem;line-height:1.3}
+.sc-sub{font-size:.72rem;color:var(--gray);font-family:'DM Mono',monospace;line-height:1.5}
+.sc-arr{position:absolute;bottom:.8rem;right:.8rem;font-size:.75rem;color:var(--yellow);opacity:0;transform:translateX(-4px);transition:all .2s}
+
+/* ── VİZYON MİSYON ───────────────────────────────────────────────────────── */
+#vizyonmisyon{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--gray2)}
+.vm{padding:4rem 2.5rem;background:var(--card)}
+.vm:first-child{background:var(--black)}
+.vm-icon{font-size:1.8rem;margin-bottom:1.2rem;display:block}
+.vm-title{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.04em;color:var(--c,var(--purple));margin-bottom:.6rem}
+.vm-sub{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:1.2rem}
+.vm-body{color:var(--gray);line-height:1.85;font-size:.9rem;margin-bottom:1.2rem}
+.vm-body strong{color:var(--white)}
+.vm-q{padding:.7rem 1rem;border-left:2px solid var(--c,var(--purple));font-style:italic;font-size:.83rem;color:var(--gray);background:rgba(255,255,255,.02)}
+
+/* ── RAKAMLAR ─────────────────────────────────────────────────────────────── */
+#rakamlar{background:var(--dark)}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray2);margin-top:2.5rem}
+.nc{background:var(--card);padding:2rem 1.5rem;border-bottom:2px solid var(--c,var(--yellow));transition:background .2s}
+.nc:hover{background:var(--card2)}
+.nc-icon{font-size:1.3rem;margin-bottom:.8rem;display:block}
+.nc-num{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:var(--c,var(--yellow));line-height:1}
+.nc-title{font-size:.82rem;font-weight:700;margin:.4rem 0 .2rem}
+.nc-sub{font-size:.72rem;color:var(--gray);font-family:'DM Mono',monospace;line-height:1.5}
+
+/* ── REFERANSLAR ──────────────────────────────────────────────────────────── */
+#referanslar{background:var(--black)}
+.ref-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.ref-note{max-width:260px;text-align:right;font-size:.78rem;color:var(--gray);line-height:1.7}
+.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray2)}
+.rc{background:var(--card);padding:2rem 1.8rem;position:relative;transition:background .2s}
+.rc:hover{background:var(--card2)}
+.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--c,var(--teal))}
+.rc-icon{font-size:1.4rem;margin-bottom:.8rem;display:block}
+.rc-title{font-size:.9rem;font-weight:700;margin-bottom:.8rem}
+.rc-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.rc-tag{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.06em;padding:.25rem .6rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:var(--gray)}
+.ref-foot{margin-top:.5rem;font-size:.72rem;color:var(--gray2);font-style:italic;border-top:1px solid var(--gray2);padding-top:.8rem}
+
+/* ── NEDEN ────────────────────────────────────────────────────────────────── */
+#neden{background:var(--dark)}
+.nd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray2);margin-top:2.5rem}
+.nd{background:var(--card);padding:1.8rem 1.5rem;border-left:2px solid var(--c,var(--yellow));transition:all .2s}
+.nd:hover{background:var(--card2);border-left-width:4px}
+.nd-icon{font-size:1.2rem;margin-bottom:.8rem;display:block}
+.nd-title{font-size:.85rem;font-weight:700;margin-bottom:.4rem;line-height:1.4}
+.nd-body{font-size:.78rem;color:var(--gray);line-height:1.7}
+
+/* ── COĞRAFİ ──────────────────────────────────────────────────────────────── */
+#cografi{background:var(--black)}
+.geo-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2.5rem;align-items:start}
+.geo-p{color:var(--gray);line-height:1.8;font-size:.9rem;margin-bottom:1.2rem}
+.geo-p strong{color:var(--white)}
+.geo-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--gray2)}
+.gc{background:var(--card);padding:1.2rem;border-bottom:2px solid var(--c,var(--teal))}
+.gc-flag{font-size:1.1rem;display:block;margin-bottom:.4rem}
+.gc-name{font-size:.85rem;font-weight:700;margin-bottom:.2rem}
+.gc-sub{font-size:.72rem;color:var(--gray);margin-bottom:.5rem}
+.gc-badge{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.22rem .55rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--c,var(--teal))}
+.geo-map{background:var(--card);border:1px solid var(--gray2);height:260px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.map-legend{position:absolute;bottom:.8rem;left:.8rem;display:flex;gap:.8rem;flex-wrap:wrap}
+.map-legend span{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.06em}
+
+/* ── CHAT ─────────────────────────────────────────────────────────────────── */
+#chat{background:var(--dark);position:relative;overflow:hidden}
+#chat::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(250,182,23,.04),transparent)}
+.chat-wrap{max-width:720px;margin:0 auto;position:relative;z-index:1}
+.chat-intro{text-align:center;margin-bottom:2rem}
+.chat-intro p{color:var(--gray);max-width:480px;margin:.6rem auto 0;line-height:1.8;font-size:.9rem}
+.chat-win{background:var(--card);border:1px solid var(--gray2)}
+.chat-hd{background:var(--card2);padding:.85rem 1.2rem;display:flex;align-items:center;gap:.7rem;border-bottom:1px solid var(--gray2)}
+.chat-av{width:30px;height:30px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--black);flex-shrink:0}
+.chat-nm{font-size:.82rem;font-weight:600}
+.chat-st{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--green);display:flex;align-items:center;gap:.35rem}
+.chat-st::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green)}
+.chat-msgs{padding:1.2rem;display:flex;flex-direction:column;gap:.8rem;min-height:240px;max-height:320px;overflow-y:auto}
+.msg{display:flex;gap:.6rem;align-items:flex-start}
+.msg-av{width:26px;height:26px;flex-shrink:0;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:var(--black)}
+.msg-bbl{background:var(--card2);border:1px solid var(--gray2);border-radius:0 8px 8px 8px;padding:.7rem 1rem;max-width:80%;font-size:.82rem;line-height:1.7}
+.msg.u{justify-content:flex-end}
+.msg.u .msg-bbl{background:rgba(250,182,23,.1);border:1px solid rgba(250,182,23,.2);border-radius:8px 0 8px 8px;color:var(--white)}
+.msg-t{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gray);margin-top:.2rem}
+.qrs{display:flex;flex-wrap:wrap;gap:.4rem;padding:.4rem 1.2rem .8rem}
+.qr{font-family:'DM Mono',monospace;font-size:.67rem;letter-spacing:.04em;padding:.35rem .85rem;background:transparent;border:1px solid var(--gray2);color:var(--gray);cursor:pointer;transition:all .2s}
+.qr:hover{border-color:var(--yellow);color:var(--yellow)}
+.chat-inp{display:flex;border-top:1px solid var(--gray2)}
+.chat-input{flex:1;background:transparent;border:none;outline:none;padding:.85rem 1.2rem;font-family:'Space Grotesk',sans-serif;font-size:.82rem;color:var(--white)}
+.chat-input::placeholder{color:var(--gray)}
+.chat-send{background:var(--yellow);color:var(--black);border:none;padding:0 1.3rem;cursor:pointer;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:opacity .2s;white-space:nowrap}
+.chat-send:hover{opacity:.85}
+
+/* ── İLETİŞİM ─────────────────────────────────────────────────────────────── */
+#iletisim{background:var(--black)}
+.con-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;margin-top:2.5rem;align-items:start}
+.con-p{color:var(--gray);line-height:1.8;margin-bottom:1.5rem;font-size:.9rem}
+.con-items{display:flex;flex-direction:column;gap:1px}
+.con-item{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;background:var(--card);border-left:2px solid var(--c,var(--yellow));transition:background .2s;color:var(--white)}
+.con-item:hover{background:var(--card2)}
+.ci-icon{font-size:1rem;flex-shrink:0}
+.ci-lbl{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--yellow))}
+.ci-val{font-size:.88rem;font-weight:500;margin-top:.1rem}
+.con-cta{margin-top:1px}
+.cta-big{display:block;background:var(--yellow);color:var(--black);text-align:center;padding:1.1rem;font-family:'DM Mono',monospace;font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;transition:opacity .2s;width:100%}
+.cta-big:hover{opacity:.85}
+.con-r{display:flex;flex-direction:column;gap:1px}
+.op-row{display:flex;justify-content:space-between;align-items:center;padding:.85rem 1rem;background:var(--card2);border-left:2px solid var(--c,var(--yellow))}
+.op-name{font-size:.85rem;font-weight:600}
+.op-badge{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;color:var(--c,var(--yellow))}
+.pkg-box{background:var(--yellow);padding:1.8rem;margin-top:1px}
+.pkg-sub{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(8,12,14,.55);margin-bottom:.4rem}
+.pkg-price{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--black);letter-spacing:.04em;line-height:1.1}
+.pkg-desc{font-size:.78rem;color:rgba(8,12,14,.65);margin:.4rem 0 1rem;line-height:1.6}
+.pkg-btn{display:inline-block;background:var(--black);color:var(--yellow);font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.08em;padding:.6rem 1.3rem;text-transform:uppercase;cursor:pointer;border:none}
+
+/* ── FOOTER ───────────────────────────────────────────────────────────────── */
+footer{background:var(--black);border-top:1px solid var(--gray2);padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.f-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.08em}
+.f-logo span{color:var(--yellow)}
+.f-copy{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gray);letter-spacing:.06em}
+.f-links{display:flex;gap:1.2rem}
+.f-links a{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gray);letter-spacing:.06em;transition:color .2s}
+.f-links a:hover{color:var(--yellow)}
+
+/* ── MODAL ────────────────────────────────────────────────────────────────── */
+.modal-bg{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(8,12,14,.92);backdrop-filter:blur(12px);
+  align-items:center;justify-content:center;padding:1.5rem;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:var(--card);border:1px solid var(--gray2);
+  max-width:680px;width:100%;max-height:88vh;overflow-y:auto;
+  position:relative;
+}
+.modal-top{
+  padding:1.8rem 2rem 1.5rem;
+  border-bottom:1px solid var(--gray2);
+  display:flex;justify-content:space-between;align-items:flex-start;
+  position:sticky;top:0;background:var(--card);z-index:1;
+}
+.modal-title-wrap{}
+.modal-icon{font-size:1.8rem;margin-bottom:.5rem;display:block}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;color:var(--c,var(--yellow))}
+.modal-sub{font-size:.78rem;color:var(--gray);font-family:'DM Mono',monospace;margin-top:.2rem}
+.modal-close{background:none;border:1px solid var(--gray2);color:var(--gray);width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:1rem;transition:all .2s}
+.modal-close:hover{border-color:var(--yellow);color:var(--yellow)}
+.modal-body{padding:1.8rem 2rem}
+.modal-body p{color:var(--gray);line-height:1.85;font-size:.88rem;margin-bottom:1.2rem}
+.modal-body p strong{color:var(--white)}
+.modal-list{margin-bottom:1.5rem}
+.modal-list-title{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:.7rem}
+.modal-list li{display:flex;gap:.6rem;align-items:flex-start;font-size:.85rem;color:var(--gray);line-height:1.7;margin-bottom:.4rem;list-style:none}
+.modal-list li::before{content:'→';color:var(--yellow);flex-shrink:0;font-family:'DM Mono',monospace;font-size:.75rem;margin-top:.05rem}
+.modal-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem}
+.modal-tag{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.06em;padding:.28rem .7rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--gray)}
+.modal-cta-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--gray2)}
+.modal-cta-y{background:var(--yellow);color:var(--black);font-family:'DM Mono',monospace;font-size:.75rem;font-weight:600;letter-spacing:.08em;padding:.7rem 1.5rem;border:none;cursor:pointer;text-transform:uppercase;transition:opacity .2s}
+.modal-cta-y:hover{opacity:.85}
+.modal-cta-o{background:transparent;color:var(--white);font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.08em;padding:.7rem 1.5rem;border:1px solid var(--gray2);cursor:pointer;text-transform:uppercase;transition:all .2s}
+.modal-cta-o:hover{border-color:var(--yellow);color:var(--yellow)}
+
+/* ── REVEAL ───────────────────────────────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSİVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:repeat(3,1fr)}
+  .nd-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  nav{padding:0 1.2rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  #hero{grid-template-columns:1fr;padding:calc(var(--nav-h) + 3px + 1.5rem) 1.2rem 2rem;gap:1.5rem}
+  h1{font-size:clamp(3.5rem,18vw,5.5rem)}
+  .hero-sub{margin:.7rem 0 1.2rem;font-size:.9rem}
+  .hero-btns{flex-direction:column;gap:.6rem}
+  .btn-y,.btn-o{text-align:center;padding:.7rem 1rem}
+  #stats{grid-template-columns:repeat(2,1fr)}
+  .st-n{font-size:2.5rem}
+  .sec{padding:3.5rem 1.2rem}
+  h2{font-size:clamp(2rem,9vw,3rem)}
+  .svc-intro{grid-template-columns:1fr;gap:1rem}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  #vizyonmisyon{grid-template-columns:1fr}
+  .vm{padding:3rem 1.5rem}
+  .vm-title{font-size:2.2rem}
+  .num-grid{grid-template-columns:repeat(2,1fr)}
+  .nc-num{font-size:2.8rem}
+  .ref-hd{flex-direction:column;align-items:flex-start}
+  .ref-note{text-align:left;max-width:100%}
+  .ref-grid{grid-template-columns:1fr}
+  .nd-grid{grid-template-columns:1fr}
+  .geo-grid{grid-template-columns:1fr}
+  .geo-map{height:200px}
+  .chat-wrap{padding:0}
+  .chat-msgs{max-height:260px}
+  .qrs{padding:.35rem .8rem .7rem}
+  .con-grid{grid-template-columns:1fr;gap:2rem}
+  footer{flex-direction:column;text-align:center;padding:1.2rem}
+  .f-links{justify-content:center}
+  .modal{max-height:95vh}
+  .modal-top{padding:1.2rem 1.2rem 1rem}
+  .modal-body{padding:1.2rem}
+}
+@media(max-width:400px){
+  .svc-grid{grid-template-columns:1fr}
+  #stats{grid-template-columns:1fr}
+  .num-grid{grid-template-columns:1fr}
+  .geo-cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- COLORBAR -->
+<div class="cbar">
+  <div style="background:var(--yellow)"></div>
+  <div style="background:var(--teal)"></div>
+  <div style="background:var(--blue)"></div>
+  <div style="background:var(--purple)"></div>
+  <div style="background:var(--pink)"></div>
+  <div style="background:var(--green)"></div>
+</div>
+
+<!-- MOBİL MENÜ -->
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="closeMob()">Hizmetler</a>
+  <a href="#rakamlar" onclick="closeMob()">Rakamlar</a>
+  <a href="#referanslar" onclick="closeMob()">Referanslar</a>
+  <a href="#neden" onclick="closeMob()">Neden Biz</a>
+  <a href="#chat" onclick="closeMob()">Bize Yazın</a>
+  <a href="#chat" class="mob-cta" onclick="closeMob()">Teklif Al →</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">LUMEN <span>CO.</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Hizmetler</a></li>
+    <li><a href="#rakamlar">Rakamlar</a></li>
+    <li><a href="#referanslar">Referanslar</a></li>
+    <li><a href="#neden">Neden Biz</a></li>
+    <li><a href="#chat">Bize Yazın</a></li>
+  </ul>
+  <a class="nav-cta" href="#chat">Teklif Al →</a>
+  <button class="hamburger" id="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-l rv">
+    <div class="hero-tag">Yaratıcı Ajans & Prodüksiyon</div>
+    <h1>LUMEN<span class="acc">CO.</span></h1>
+    <p class="hero-sub">Görünür Olmanın Sanatı.</p>
+    <div class="hero-btns">
+      <button class="btn-y" onclick="scrollTo('#chat')">Proje Başlat</button>
+      <button class="btn-o" onclick="scrollTo('#services')">Hizmetleri Gör</button>
+    </div>
+  </div>
+  <div class="hero-r rv">
+    <div class="srv-tag">— Hizmetlerimiz —</div>
+    <div class="srv-item" style="--c:var(--teal)" onclick="openModal('video')">
+      <span class="si-icon">🎬</span>
+      <div><div class="si-name">Video Prodüksiyon & Reji</div><div class="si-sub">Canlı yayın, 4K/HD, OB Van</div></div>
+      <span class="si-arr">→</span>
+    </div>
+    <div class="srv-item" style="--c:var(--blue)" onclick="openModal('sosyal')">
+      <span class="si-icon">📱</span>
+      <div><div class="si-name">Sosyal Medya Yönetimi</div><div class="si-sub">Strateji, içerik, büyüme</div></div>
+      <span class="si-arr">→</span>
+    </div>
+    <div class="srv-item" style="--c:var(--purple)" onclick="openModal('film')">
+      <span class="si-icon">🎥</span>
+      <div><div class="si-name">Film & Sinema Prodüksiyonu</div><div class="si-sub">Kısa film, belgesel, klip</div></div>
+      <span class="si-arr">→</span>
+    </div>
+    <div class="srv-item" style="--c:var(--yellow)" onclick="openModal('ai')">
+      <span class="si-icon">🤖</span>
+      <div><div class="si-name">Yapay Zeka Destekli İçerik</div><div class="si-sub">AI görsel, video, otomasyon</div></div>
+      <span class="si-arr">→</span>
+    </div>
+    <div class="srv-item" style="--c:var(--pink)" onclick="openModal('etkinlik')">
+      <span class="si-icon">🎪</span>
+      <div><div class="si-name">Konser & Etkinlik Org.</div><div class="si-sub">Sahne, ses, ışık, koordinasyon</div></div>
+      <span class="si-arr">→</span>
+    </div>
+    <div class="srv-item" style="--c:var(--green)" onclick="openModal('reklam')">
+      <span class="si-icon">🎯</span>
+      <div><div class="si-name">Dijital Reklam & Performans</div><div class="si-sub">Meta, TikTok, Google Ads</div></div>
+      <span class="si-arr">→</span>
+    </div>
+    <div class="srv-item" style="--c:var(--teal2)" onclick="openModal('menajerlik')">
+      <span class="si-icon">⭐</span>
+      <div><div class="si-name">Menajerlik & Talent Yönetimi</div><div class="si-sub">Kariyer, sponsorluk, iş birlikleri</div></div>
+      <span class="si-arr">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="st rv" style="--c:var(--yellow)"><div class="st-n">10+</div><div class="st-l">Yıl Tecrübe</div></div>
+  <div class="st rv" style="--c:var(--teal)"><div class="st-n">50+</div><div class="st-l">Kimlik Tasarımı</div></div>
+  <div class="st rv" style="--c:var(--pink)"><div class="st-n">500+</div><div class="st-l">Prodüksiyon</div></div>
+  <div class="st rv" style="--c:var(--purple)"><div class="st-n">11</div><div class="st-l">Hizmet Alanı</div></div>
+</div>
+
+<!-- HİZMETLER -->
+<section id="services" class="sec" style="background:var(--black)">
+  <div class="svc-intro rv">
+    <div>
+      <div class="sec-tag">Hizmetlerimiz</div>
+      <h2>HİZMET-<br><span class="hl">LERİMİZ</span></h2>
+    </div>
+    <p class="svc-desc">Tek çatı altında <strong style="color:var(--yellow)">tam kapsamlı</strong> yaratıcı çözümler. Bir hizmete tıklayarak detaylı bilgi alabilirsiniz.</p>
+  </div>
+  <div class="svc-grid rv">
+    <div class="svc-card" style="--c:var(--teal)" onclick="openModal('video')"><span class="sc-icon">📡</span><div class="sc-title">Video Prodüksiyon & Reji</div><div class="sc-sub">Canlı yayın, OB Van, 4K/HD, uydu yayını</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--blue)" onclick="openModal('sosyal')"><span class="sc-icon">📲</span><div class="sc-title">Sosyal Medya Yönetimi</div><div class="sc-sub">Strateji, içerik, büyüme, haftalık rapor</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--purple)" onclick="openModal('film')"><span class="sc-icon">🎬</span><div class="sc-title">Film & Sinema Prodüksiyonu</div><div class="sc-sub">Kısa film, belgesel, klip, reklam filmi</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--yellow)" onclick="openModal('ai')"><span class="sc-icon">🤖</span><div class="sc-title">Yapay Zeka Destekli İçerik</div><div class="sc-sub">AI görsel, video sentezi, otomasyon</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--pink)" onclick="openModal('etkinlik')"><span class="sc-icon">🎪</span><div class="sc-title">Konser & Etkinlik Org.</div><div class="sc-sub">Sahne, ses, ışık, koordinasyon</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--green)" onclick="openModal('acik')"><span class="sc-icon">🏙️</span><div class="sc-title">Açık Hava Reklam & Tanıtım</div><div class="sc-sub">Billboard, totem, araç giydirme</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--teal)" onclick="openModal('reklam')"><span class="sc-icon">🎯</span><div class="sc-title">Dijital Reklam & Performans</div><div class="sc-sub">Meta, TikTok, Google Ads</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--blue)" onclick="openModal('marka')"><span class="sc-icon">🎨</span><div class="sc-title">Kurumsal Kimlik & Marka</div><div class="sc-sub">Logo, kimlik rehberi, marka yaratımı</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--yellow)" onclick="openModal('urun')"><span class="sc-icon">📸</span><div class="sc-title">Ürün & Model Çekimi</div><div class="sc-sub">Stüdyo, lifestyle, 4K/RAW format</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--purple)" onclick="openModal('basin')"><span class="sc-icon">🗞️</span><div class="sc-title">Basın & Baskı Reklamcılığı</div><div class="sc-sub">Ulusal, yerel, dergi, dijital</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--pink)" onclick="openModal('menajerlik')"><span class="sc-icon">⭐</span><div class="sc-title">Menajerlik & Talent Yönetimi</div><div class="sc-sub">Kariyer, sponsorluk, iş birlikleri</div><span class="sc-arr">→</span></div>
+    <div class="svc-card" style="--c:var(--green)" onclick="openModal('web')"><span class="sc-icon">🌐</span><div class="sc-title">Web & Uygulama</div><div class="sc-sub">Kurumsal web, mobil app, dijital çözümler</div><span class="sc-arr">→</span></div>
+  </div>
+</section>
+
+<!-- VİZYON MİSYON -->
+<div id="vizyonmisyon">
+  <div class="vm rv" style="--c:var(--purple)">
+    <span class="vm-icon">🚀</span>
+    <div class="vm-sub">Nereye Gidiyoruz?</div>
+    <div class="vm-title">VİZYON</div>
+    <p class="vm-body">Yaratıcılığın teknoloji ile buluştuğu noktada, <strong>her markanın en güçlü sesini bulmak</strong>; dijital dünyada kalıcı, zihinlerde unutulmaz izler bırakmak.<br><br>Türkiye'nin en <strong>yenilikçi yaratıcı ajansı</strong> olmak; Avrupa ve Orta Doğu pazarlarında Türk yaratıcı gücünü temsil etmek.</p>
+    <div class="vm-q">"Yerel güç, global erişim."</div>
+  </div>
+  <div class="vm rv" style="--c:var(--yellow)">
+    <span class="vm-icon">🎯</span>
+    <div class="vm-sub">Neden Buradayız?</div>
+    <div class="vm-title" style="color:var(--yellow)">MİSYON</div>
+    <p class="vm-body">Müşterilerimizin hikayelerini <strong>en etkileyici biçimde anlatmak</strong>; strateji, estetik ve teknolojinin kesişiminde özgün çözümler üretmek.<br><br>Küçük işletmeden uluslararası markaya <strong>aynı özen, aynı standart ve aynı tutkuyla</strong> hizmet vermek.</p>
+    <div class="vm-q" style="border-color:var(--yellow)">"Yalnızca iş yapmak değil — fark yaratmak."</div>
+  </div>
+</div>
+
+<!-- RAKAMLAR -->
+<section id="rakamlar" class="sec">
+  <div class="rv">
+    <div class="sec-tag">Rakamlar & Deneyim</div>
+    <h2>RAKAMLAR <span class="hl">KONUŞUYOR.</span></h2>
+  </div>
+  <div class="num-grid rv">
+    <div class="nc" style="--c:var(--yellow)"><span class="nc-icon">🏆</span><div class="nc-num">10+</div><div class="nc-title">Yıllık Meslek Tecrübesi</div><div class="nc-sub">Sektördeki birikimimiz</div></div>
+    <div class="nc" style="--c:var(--teal)"><span class="nc-icon">🎨</span><div class="nc-num">50+</div><div class="nc-title">Kurumsal Kimlik Tasarımı</div><div class="nc-sub">Logo, marka, kurumsal rehber</div></div>
+    <div class="nc" style="--c:var(--pink)"><span class="nc-icon">🎬</span><div class="nc-num">500+</div><div class="nc-title">Prodüksiyon Projesi</div><div class="nc-sub">Canlı yayın, etkinlik, film</div></div>
+    <div class="nc" style="--c:var(--purple)"><span class="nc-icon">⚡</span><div class="nc-num">11</div><div class="nc-title">Farklı Hizmet Alanı</div><div class="nc-sub">Tek çatı altında tam kapsam</div></div>
+    <div class="nc" style="--c:var(--green)"><span class="nc-icon">🌍</span><div class="nc-num">5</div><div class="nc-title">Coğrafi Bölge</div><div class="nc-sub">Bursa · İstanbul · Ankara · Avrupa · Dubai</div></div>
+    <div class="nc" style="--c:var(--yellow)"><span class="nc-icon">🎪</span><div class="nc-num">100+</div><div class="nc-title">Etkinlik & Organizasyon</div><div class="nc-sub">Konser, fuar, tören</div></div>
+    <div class="nc" style="--c:var(--blue)"><span class="nc-icon">📢</span><div class="nc-num">200+</div><div class="nc-title">Açık Hava Reklam</div><div class="nc-sub">Billboard, totem, araç giydirme</div></div>
+    <div class="nc" style="--c:var(--teal)"><span class="nc-icon">🏢</span><div class="nc-num">3</div><div class="nc-title">Aktif Şehir Operasyonu</div><div class="nc-sub">Bursa, İstanbul, Ankara</div></div>
+  </div>
+</section>
+
+<!-- REFERANSLAR -->
+<section id="referanslar" class="sec" style="background:var(--black)">
+  <div class="ref-hd rv">
+    <div><div class="sec-tag">Referanslar</div><h2>REFERANS <span class="hl">ALANLARI</span></h2></div>
+    <div class="ref-note">Pek çok sektörde kurumsal firmalar ve uluslararası markalarla çalıştık. Detaylar talep üzerine paylaşılır.</div>
+  </div>
+  <div class="ref-grid rv">
+    <div class="rc" style="--c:var(--yellow)"><span class="rc-icon">🏛️</span><div class="rc-title">Kamu & Belediyeler</div><div class="rc-tags"><span class="rc-tag">Belediye Projeleri</span><span class="rc-tag">Kamu Kuruluşları</span><span class="rc-tag">Kurumsal İletişim</span></div></div>
+    <div class="rc" style="--c:var(--pink)"><span class="rc-icon">🎵</span><div class="rc-title">Müzik & Eğlence</div><div class="rc-tags"><span class="rc-tag">Konser Prodüksiyonları</span><span class="rc-tag">Sanatçı İş Birlikleri</span><span class="rc-tag">Müzik Videoları</span></div></div>
+    <div class="rc" style="--c:var(--blue)"><span class="rc-icon">🗳️</span><div class="rc-title">Siyasi Kampanyalar</div><div class="rc-tags"><span class="rc-tag">Seçim Kampanyaları</span><span class="rc-tag">Görsel Kimlik</span><span class="rc-tag">Medya Yönetimi</span></div></div>
+    <div class="rc" style="--c:var(--purple)"><span class="rc-icon">🏢</span><div class="rc-title">Kurumsal Markalar</div><div class="rc-tags"><span class="rc-tag">Uluslararası Markalar</span><span class="rc-tag">Kurumsal Kimlik</span><span class="rc-tag">Reklam Filmleri</span></div></div>
+    <div class="rc" style="--c:var(--green)"><span class="rc-icon">🎪</span><div class="rc-title">Etkinlik & Organizasyon</div><div class="rc-tags"><span class="rc-tag">Ulusal Organizasyonlar</span><span class="rc-tag">Spor Etkinlikleri</span><span class="rc-tag">Fuarlar & Törenler</span></div></div>
+    <div class="rc" style="--c:var(--teal)"><span class="rc-icon">🎞️</span><div class="rc-title">Film & Medya</div><div class="rc-tags"><span class="rc-tag">Belgeseller</span><span class="rc-tag">Kısa Filmler</span><span class="rc-tag">Web TV Yayınları</span></div></div>
+  </div>
+  <p class="ref-foot">* Referans detayları ve portföy örnekleri talep üzerine sunulmaktadır.</p>
+</section>
+
+<!-- NEDEN -->
+<section id="neden" class="sec">
+  <div class="rv"><div class="sec-tag">Neden Lumen Co.?</div><h2>NEDEN <span class="hl">LUMEN CO.?</span></h2></div>
+  <div class="nd-grid rv">
+    <div class="nd" style="--c:var(--yellow)"><span class="nd-icon">🏆</span><div class="nd-title">10+ Yıllık Ekip Tecrübesi</div><div class="nd-body">Sektörde kanıtlanmış birikim, yeni nesil vizyonla birleşiyor.</div></div>
+    <div class="nd" style="--c:var(--teal)"><span class="nd-icon">🔗</span><div class="nd-title">Tek Çatı Altında Her Şey</div><div class="nd-body">Prodüksiyon, tasarım, dijital ve yapay zeka — hepsi bir arada.</div></div>
+    <div class="nd" style="--c:var(--yellow)"><span class="nd-icon">🤖</span><div class="nd-title">Yapay Zeka Öncüsü</div><div class="nd-body">AI destekli içerik üretiminde Türkiye'nin öncü ajanslarından.</div></div>
+    <div class="nd" style="--c:var(--purple)"><span class="nd-icon">📐</span><div class="nd-title">Brief'e Tam Sadakat</div><div class="nd-body">Her projeye özel yaklaşım, şeffaf süreç, zamanında teslimat.</div></div>
+    <div class="nd" style="--c:var(--pink)"><span class="nd-icon">📊</span><div class="nd-title">Ölçülebilir Sonuçlar</div><div class="nd-body">Strateji odaklı çalışma, haftalık raporlama, kanıtlanmış büyüme.</div></div>
+    <div class="nd" style="--c:var(--blue)"><span class="nd-icon">🌍</span><div class="nd-title">Uluslararası Deneyim</div><div class="nd-body">Avrupa ve Dubai pazarında aktif müşteri ağı ve proje tecrübesi.</div></div>
+    <div class="nd" style="--c:var(--green)"><span class="nd-icon">⚡</span><div class="nd-title">Hız & Kalite Garantisi</div><div class="nd-body">Aynı gün teslimat seçeneği, 7/24 destek, 4K/HD standart kalite.</div></div>
+    <div class="nd" style="--c:var(--teal)"><span class="nd-icon">🎯</span><div class="nd-title">Her Bütçeye Özel Çözüm</div><div class="nd-body">Küçük işletmeden büyük kuruma, her ölçeğe uygun paketler.</div></div>
+  </div>
+</section>
+
+<!-- COĞRAFİ -->
+<section id="cografi" class="sec" style="background:var(--black)">
+  <div class="rv"><div class="sec-tag">Coğrafi Ağ</div><h2>YEREL GÜÇ, <span class="hl">GLOBAL ERİŞİM.</span></h2></div>
+  <div class="geo-grid rv">
+    <div>
+      <p class="geo-p">Türkiye'nin üç büyük şehrinde <strong>aktif operasyon.</strong> Avrupa ve Dubai'de <strong>büyüyen müşteri ağı.</strong></p>
+      <div class="geo-cards">
+        <div class="gc" style="--c:var(--yellow)"><span class="gc-flag">🇹🇷</span><div class="gc-name">Türkiye</div><div class="gc-sub">Bursa · İstanbul · Ankara</div><span class="gc-badge" style="color:var(--green)">Aktif Operasyon</span></div>
+        <div class="gc" style="--c:var(--blue)"><span class="gc-flag">🇪🇺</span><div class="gc-name">Avrupa</div><div class="gc-sub">Uluslararası Müşteri Ağı</div><span class="gc-badge" style="color:var(--purple)">Büyüyor</span></div>
+        <div class="gc" style="--c:var(--teal)"><span class="gc-flag">🇦🇪</span><div class="gc-name">Dubai</div><div class="gc-sub">Orta Doğu Pazarı</div><span class="gc-badge" style="color:var(--purple)">Büyüyor</span></div>
+        <div class="gc" style="--c:var(--green)"><span class="gc-flag">🌐</span><div class="gc-name">Global</div><div class="gc-sub">Dijital hizmetlerde sınırsız</div><span class="gc-badge" style="color:var(--teal)">Dijital</span></div>
+      </div>
+    </div>
+    <div class="geo-map">
+      <svg width="100%" height="100%" viewBox="0 0 500 260" style="position:absolute;inset:0">
+        <line x1="185" y1="145" x2="225" y2="115" stroke="#FAB617" stroke-width="1" stroke-dasharray="4,4" opacity=".4"/>
+        <line x1="185" y1="145" x2="245" y2="140" stroke="#14B8A6" stroke-width="1" stroke-dasharray="4,4" opacity=".4"/>
+        <line x1="185" y1="145" x2="110" y2="75" stroke="#7C3AED" stroke-width="1" stroke-dasharray="4,4" opacity=".4"/>
+        <line x1="185" y1="145" x2="390" y2="195" stroke="#22C55E" stroke-width="1" stroke-dasharray="4,4" opacity=".3"/>
+        <circle cx="185" cy="145" r="14" fill="#FAB617" opacity=".15"/>
+        <circle cx="185" cy="145" r="8" fill="#FAB617" opacity=".9"/>
+        <text x="200" y="140" fill="#fff" font-size="11" font-family="DM Mono,monospace" font-weight="500">BURSA</text>
+        <circle cx="225" cy="115" r="6" fill="#14B8A6" opacity=".9"/>
+        <text x="236" y="110" fill="#94A3B8" font-size="10" font-family="DM Mono,monospace">İSTANBUL</text>
+        <circle cx="245" cy="140" r="6" fill="#EC4899" opacity=".9"/>
+        <text x="256" y="136" fill="#94A3B8" font-size="10" font-family="DM Mono,monospace">ANKARA</text>
+        <circle cx="110" cy="75" r="5" fill="#7C3AED" opacity=".9"/>
+        <text x="82" y="65" fill="#94A3B8" font-size="10" font-family="DM Mono,monospace">AVRUPA</text>
+        <circle cx="390" cy="195" r="5" fill="#22C55E" opacity=".9"/>
+        <text x="362" y="185" fill="#94A3B8" font-size="10" font-family="DM Mono,monospace">DUBAI</text>
+      </svg>
+      <div class="map-legend">
+        <span style="color:var(--yellow)">● Aktif</span>
+        <span style="color:var(--purple)">● Uluslararası</span>
+        <span style="color:var(--green)">● Büyüyor</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAT -->
+<section id="chat" class="sec">
+  <div class="chat-wrap">
+    <div class="chat-intro rv">
+      <div class="sec-tag" style="justify-content:center">Bize Yazın</div>
+      <h2 style="text-align:center">BİRLİKTE <span class="hl">ÜRETELİM.</span></h2>
+      <p>Projenizi anlatın — size özel bütçe ve örnek çalışma sunalım.</p>
+    </div>
+    <div class="chat-win rv">
+      <div class="chat-hd">
+        <div class="chat-av">L</div>
+        <div><div class="chat-nm">Lumen Co. Ekibi</div><div class="chat-st">Çevrimiçi</div></div>
+      </div>
+      <div class="chat-msgs" id="msgs">
+        <div class="msg">
+          <div class="msg-av">L</div>
+          <div>
+            <div class="msg-bbl">👋 Merhaba! Projeniz hakkında birkaç kelime yazın — size en uygun çözümü birlikte bulalım.</div>
+            <div class="msg-t">Şimdi</div>
+          </div>
+        </div>
+      </div>
+      <div class="qrs" id="qrs">
+        <button class="qr" onclick="qr('Video prodüksiyon yaptırmak istiyorum')">🎬 Video</button>
+        <button class="qr" onclick="qr('Marka kimliği istiyorum')">🎨 Marka</button>
+        <button class="qr" onclick="qr('Sosyal medya yönetimi almak istiyorum')">📱 Sosyal Medya</button>
+        <button class="qr" onclick="qr('Etkinlik organizasyonu için fiyat istiyorum')">🎪 Etkinlik</button>
+        <button class="qr" onclick="qr('Yapay zeka ile içerik üretmek istiyorum')">🤖 AI İçerik</button>
+        <button class="qr" onclick="qr('Reklam filmi çektirmek istiyorum')">🎥 Reklam Filmi</button>
+      </div>
+      <div class="chat-inp">
+        <input class="chat-input" id="ci" type="text" placeholder="Projenizi anlatın..." onkeydown="if(event.key==='Enter')send()">
+        <button class="chat-send" onclick="send()">Gönder →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- İLETİŞİM -->
+<section id="iletisim" class="sec" style="background:var(--black)">
+  <div class="con-grid rv">
+    <div>
+      <div class="sec-tag">İletişim</div>
+      <h2>BİRLİKTE <span class="hl">ÜRETELİM.</span></h2>
+      <p class="con-p">Projeniz için doğru ortak. Hemen iletişime geçin.</p>
+      <div class="con-items">
+        <a class="con-item" href="tel:+905411704781" style="--c:var(--yellow)"><span class="ci-icon">📞</span><div><div class="ci-lbl">Telefon</div><div class="ci-val">+90 541 170 47 81</div></div></a>
+        <a class="con-item" href="mailto:lumencodigitalagency@gmail.com" style="--c:var(--teal)"><span class="ci-icon">✉️</span><div><div class="ci-lbl">E-Posta</div><div class="ci-val">lumencodigitalagency@gmail.com</div></div></a>
+        <a class="con-item" href="https://lumendigitalagency.co" target="_blank" style="--c:var(--blue)"><span class="ci-icon">🌐</span><div><div class="ci-lbl">Web</div><div class="ci-val">lumendigitalagency.co</div></div></a>
+        <a class="con-item" href="https://wa.me/905411704781" target="_blank" style="--c:var(--green)"><span class="ci-icon">💬</span><div><div class="ci-lbl">WhatsApp</div><div class="ci-val">Hızlı Mesaj Gönder</div></div></a>
+      </div>
+      <div class="con-cta">
+        <a class="cta-big" href="https://wa.me/905411704781?text=Merhaba%2C%20proje%20g%C3%B6r%C3%BC%C5%9Fmesi%20yapmak%20istiyorum." target="_blank">Hemen Teklif Alın →</a>
+      </div>
+    </div>
+    <div class="con-r">
+      <div class="op-row" style="--c:var(--yellow)"><span class="op-name">Bursa</span><span class="op-badge" style="color:var(--green)">Merkez Ofis</span></div>
+      <div class="op-row" style="--c:var(--teal)"><span class="op-name">İstanbul</span><span class="op-badge">Aktif Operasyon</span></div>
+      <div class="op-row" style="--c:var(--blue)"><span class="op-name">Ankara</span><span class="op-badge" style="color:var(--blue)">Aktif Operasyon</span></div>
+      <div class="op-row" style="--c:var(--purple)"><span class="op-name">Avrupa</span><span class="op-badge" style="color:var(--purple)">Büyüyen Ağ</span></div>
+      <div class="op-row" style="--c:var(--green)"><span class="op-name">Dubai</span><span class="op-badge" style="color:var(--green)">Orta Doğu</span></div>
+      <div class="pkg-box">
+        <div class="pkg-sub">Hızlı Başlangıç</div>
+        <div class="pkg-price">₺8.000<span style="font-size:1.1rem">/ay'dan</span></div>
+        <div class="pkg-desc">Sosyal medya yönetimi, içerik üretimi ve marka şablonu dahil.</div>
+        <button class="pkg-btn" onclick="scrollTo('#chat')">Paketleri İncele →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">LUMEN <span>CO.</span></div>
+  <div class="f-copy">© 2025 Lumen Co. — Yaratıcı Ajans & Prodüksiyon</div>
+  <div class="f-links"><a href="#hero">Anasayfa</a><a href="#services">Hizmetler</a><a href="#chat">İletişim</a></div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-top">
+      <div class="modal-title-wrap">
+        <span class="modal-icon" id="mIcon"></span>
+        <div class="modal-title" id="mTitle" style="--c:var(--yellow)"></div>
+        <div class="modal-sub" id="mSub"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+// ── MODAL DATA ────────────────────────────────────────────────────────────────
+const MODALS = {
+  video:{
+    icon:'🎬', title:'Video Prodüksiyon & Reji', sub:'Canlı Yayın · 4K/HD · OB Van', color:'var(--teal)',
+    body:`<p>Lumen Co. olarak <strong>profesyonel video prodüksiyon</strong> hizmetinde 10 yılı aşkın tecrübemizle yanınızdayız. Canlı yayından kurumsal tanıtım filmlerine, etkinlik prodüksiyonundan müzik videolarına kadar geniş bir yelpazede hizmet sunuyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Sunduğumuz Hizmetler</div><ul>
+    <li>Canlı yayın prodüksiyonu (multi-kamera, OB Van ile)</li>
+    <li>4K/HD kalitesinde etkinlik ve kurumsal çekimler</li>
+    <li>Drone & hava çekimleri</li>
+    <li>Uydu yayını ve teknik altyapı</li>
+    <li>Post-prodüksiyon, renk düzeltme, ses mastering</li>
+    </ul></div>
+    <div class="modal-list-title" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:.7rem">Ekipman & Teknik</div>
+    <div class="modal-tags"><span class="modal-tag">4K Kamera</span><span class="modal-tag">OB Van</span><span class="modal-tag">Drone</span><span class="modal-tag">Multi-Kamera</span><span class="modal-tag">Uydu Yayını</span><span class="modal-tag">Jib & Steadicam</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Video prodüksiyon için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  sosyal:{
+    icon:'📱', title:'Sosyal Medya Yönetimi', sub:'Instagram · TikTok · X · Strateji', color:'var(--blue)',
+    body:`<p><strong>Sosyal medya</strong> artık her markanın vitrini. Lumen Co. olarak stratejiden içerik üretimine, yönetimden raporlamaya kadar tüm süreci üstleniyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Hizmet Kapsamı</div><ul>
+    <li>Aylık içerik takvimi ve strateji planlaması</li>
+    <li>Profesyonel grafik tasarım ve video içerik üretimi</li>
+    <li>Topluluk yönetimi ve etkileşim artırma</li>
+    <li>Meta, TikTok ve Google reklam yönetimi</li>
+    <li>Haftalık performans raporları ve analiz</li>
+    </ul></div>
+    <div class="modal-list-title" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:.7rem">Paketler</div>
+    <div class="modal-tags"><span class="modal-tag">Başlangıç ₺8.000/ay</span><span class="modal-tag">Büyüme ₺18.000/ay</span><span class="modal-tag">Premium ₺35.000/ay</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Sosyal medya yönetimi için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  film:{
+    icon:'🎥', title:'Film & Sinema Prodüksiyonu', sub:'Kısa Film · Belgesel · Reklam Filmi · Klip', color:'var(--purple)',
+    body:`<p>Sinematik kalitede içerik üretiminde Lumen Co., <strong>yaratıcı yönetmenlik</strong> anlayışıyla her projeyi bir sanat eserine dönüştürür.</p>
+    <div class="modal-list"><div class="modal-list-title">Üretim Türleri</div><ul>
+    <li>Kurumsal tanıtım filmleri ve TVC prodüksiyonu</li>
+    <li>Müzik klipleri ve sanatçı içerikleri</li>
+    <li>Kısa filmler ve belgeseller</li>
+    <li>Sosyal medya reels ve TikTok klipleri</li>
+    <li>AI destekli sinematik görüntü üretimi (Kling, Higgsfield)</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Senaryo</span><span class="modal-tag">Çekim</span><span class="modal-tag">Post-Prodüksiyon</span><span class="modal-tag">Renk Düzeltme</span><span class="modal-tag">Ses Tasarımı</span><span class="modal-tag">VFX</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Film prodüksiyonu için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  ai:{
+    icon:'🤖', title:'Yapay Zeka Destekli İçerik', sub:'AI Görsel · Video Sentezi · Otomasyon', color:'var(--yellow)',
+    body:`<p>Lumen Co. olarak <strong>yapay zeka teknolojilerini</strong> içerik üretimine entegre eden Türkiye'nin öncü ajanslarından biriyiz. Kling, Higgsfield, ElevenLabs ve diğer cutting-edge araçlarla çalışıyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">AI Hizmetlerimiz</div><ul>
+    <li>AI video prodüksiyonu (Kling AI, Higgsfield)</li>
+    <li>AI ses sentezi ve seslendirme (ElevenLabs)</li>
+    <li>AI görsel üretimi ve fotoğraf geliştirme</li>
+    <li>Otomatik içerik üretim pipeline kurulumu</li>
+    <li>AI destekli senaryo ve metin yazarlığı</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Kling AI</span><span class="modal-tag">Higgsfield</span><span class="modal-tag">ElevenLabs</span><span class="modal-tag">Grok</span><span class="modal-tag">Gemini</span><span class="modal-tag">n8n</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=AI içerik üretimi için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  etkinlik:{
+    icon:'🎪', title:'Konser & Etkinlik Organizasyonu', sub:'Sahne · Ses · Işık · Koordinasyon', color:'var(--pink)',
+    body:`<p>Küçük kurumsal toplantılardan büyük <strong>konser ve festival prodüksiyonlarına</strong> kadar her ölçekte etkinlik organizasyonu sunuyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Etkinlik Türleri</div><ul>
+    <li>Konser ve müzik festivalleri prodüksiyonu</li>
+    <li>Kurumsal toplantı ve lansman etkinlikleri</li>
+    <li>Fuar ve sergi organizasyonu</li>
+    <li>Tören ve protokol etkinlikleri</li>
+    <li>Spor etkinlikleri prodüksiyon desteği</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Sahne Kurulumu</span><span class="modal-tag">Ses Sistemi</span><span class="modal-tag">Işık Tasarımı</span><span class="modal-tag">LED Ekran</span><span class="modal-tag">Teknik Koordinasyon</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Etkinlik organizasyonu için fiyat almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  reklam:{
+    icon:'🎯', title:'Dijital Reklam & Performans', sub:'Meta · TikTok · Google · Retargeting', color:'var(--teal)',
+    body:`<p>Dijital reklam yönetiminde <strong>veri odaklı strateji</strong> ile bütçenizi en verimli şekilde kullanıyoruz. Reklam harcamanızı gerçek sonuçlara dönüştürüyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Reklam Platformları</div><ul>
+    <li>Meta (Instagram & Facebook) Reklam Yönetimi</li>
+    <li>TikTok Ads kampanya yönetimi</li>
+    <li>Google Ads (Arama, Display, YouTube)</li>
+    <li>Retargeting ve yeniden hedefleme kampanyaları</li>
+    <li>Haftalık performans raporları ve optimizasyon</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Meta Ads</span><span class="modal-tag">TikTok Ads</span><span class="modal-tag">Google Ads</span><span class="modal-tag">Retargeting</span><span class="modal-tag">Analytics</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Dijital reklam için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  marka:{
+    icon:'🎨', title:'Kurumsal Kimlik & Marka', sub:'Logo · Marka Yaratımı · Kimlik Rehberi', color:'var(--blue)',
+    body:`<p>Güçlü bir marka kimliği, müşterilerinizin sizi <strong>tanımasını, hatırlamasını ve güvenmesini</strong> sağlar. Lumen Co. olarak baştan sona kurumsal kimlik çözümleri sunuyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Marka Süreci</div><ul>
+    <li>Marka keşfi ve rakip analizi</li>
+    <li>Logo ve logotype tasarımı</li>
+    <li>Renk paleti ve tipografi sistemi</li>
+    <li>Kurumsal kimlik rehberi hazırlama</li>
+    <li>Sosyal medya şablonları ve dijital uygulama</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Logo Tasarımı</span><span class="modal-tag">Brand Guide</span><span class="modal-tag">Sosyal Medya Şablonu</span><span class="modal-tag">Kartvizit</span><span class="modal-tag">Katalog</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Marka kimliği için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  urun:{
+    icon:'📸', title:'Ürün & Model Çekimi', sub:'Stüdyo · Lifestyle · 4K/RAW Format', color:'var(--yellow)',
+    body:`<p>Ürünlerinizi <strong>profesyonel stüdyo ortamında</strong> en çekici şekilde fotoğraflamak ve müşterilerinizin dikkatini çekmek için buradayız.</p>
+    <div class="modal-list"><div class="modal-list-title">Çekim Türleri</div><ul>
+    <li>Ürün fotoğrafı (beyaz ve özel arka plan)</li>
+    <li>Lifestyle ve konsept ürün çekimleri</li>
+    <li>Model ve moda fotoğrafı</li>
+    <li>E-ticaret görselleri (Trendyol, Amazon formatı)</li>
+    <li>360° ürün fotoğrafı</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">4K/RAW</span><span class="modal-tag">Stüdyo Çekim</span><span class="modal-tag">Retouching</span><span class="modal-tag">E-ticaret</span><span class="modal-tag">Lifestyle</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Ürün çekimi için fiyat almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  acik:{
+    icon:'🏙️', title:'Açık Hava Reklam & Tanıtım', sub:'Billboard · Totem · Araç Giydirme', color:'var(--green)',
+    body:`<p>Markanızı <strong>fiziksel dünyada görünür</strong> kılın. Billboard'dan araç giydirmeye, dijital ekrandan totem reklamlara kadar açık hava çözümleri sunuyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Açık Hava Hizmetleri</div><ul>
+    <li>Billboard tasarım ve kiralama koordinasyonu</li>
+    <li>Araç giydirme (car wrap) tasarım ve uygulama</li>
+    <li>Totem ve tabela tasarımı</li>
+    <li>Dijital ekran içerik üretimi</li>
+    <li>Citylight ve raket tasarımı</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Billboard</span><span class="modal-tag">Araç Giydirme</span><span class="modal-tag">Totem</span><span class="modal-tag">Dijital Ekran</span><span class="modal-tag">Citylight</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Açık hava reklam için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  basin:{
+    icon:'🗞️', title:'Basın & Baskı Reklamcılığı', sub:'Ulusal · Yerel · Dergi · Dijital', color:'var(--purple)',
+    body:`<p>Gazeteden dergiye, broşürden kataloga — <strong>baskı materyallerinizi</strong> en profesyonel şekilde tasarlıyor ve üretim sürecinizi yönetiyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Baskı Hizmetleri</div><ul>
+    <li>Ulusal ve yerel gazete ilan tasarımı</li>
+    <li>Dergi reklam tasarımı ve koordinasyonu</li>
+    <li>Broşür, katalog ve tanıtım materyalleri</li>
+    <li>Kartvizit ve kurumsal baskı materyalleri</li>
+    <li>Dijital baskı ve matbaa koordinasyonu</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Gazete İlanı</span><span class="modal-tag">Dergi Reklamı</span><span class="modal-tag">Broşür</span><span class="modal-tag">Katalog</span><span class="modal-tag">Kartvizit</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Basın ve baskı için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  menajerlik:{
+    icon:'⭐', title:'Menajerlik & Talent Yönetimi', sub:'Kariyer · Sponsorluk · Marka İş Birlikleri', color:'var(--pink)',
+    body:`<p>Sanatçı, sporcu ve içerik üreticilerine <strong>profesyonel menajerlik hizmetleri</strong> sunuyor; marka iş birliklerini koordine ediyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Menajerlik Hizmetleri</div><ul>
+    <li>Kariyer planlaması ve yönetimi</li>
+    <li>Sponsorluk anlaşmaları koordinasyonu</li>
+    <li>Marka iş birliği teklifleri yönetimi</li>
+    <li>Sosyal medya ve medya iletişimi</li>
+    <li>Etkinlik ve görünürlük planlaması</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Kariyer Yönetimi</span><span class="modal-tag">Sponsorluk</span><span class="modal-tag">Marka İş Birliği</span><span class="modal-tag">Medya Planlaması</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Menajerlik için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+  web:{
+    icon:'🌐', title:'Web & Uygulama Prodüksiyonu', sub:'Kurumsal Web · Mobil App · Dijital Çözümler', color:'var(--green)',
+    body:`<p>Dijital dünyada güçlü bir varlık için <strong>kurumsal web siteleri, landing page'ler ve mobil uygulamalar</strong> geliştiriyoruz.</p>
+    <div class="modal-list"><div class="modal-list-title">Dijital Çözümler</div><ul>
+    <li>Kurumsal web sitesi tasarım ve geliştirme</li>
+    <li>Landing page ve kampanya sayfaları</li>
+    <li>E-ticaret çözümleri</li>
+    <li>Mobil uygulama (iOS & Android)</li>
+    <li>SEO ve dijital görünürlük optimizasyonu</li>
+    </ul></div>
+    <div class="modal-tags"><span class="modal-tag">Web Tasarım</span><span class="modal-tag">E-Ticaret</span><span class="modal-tag">Mobil App</span><span class="modal-tag">SEO</span><span class="modal-tag">Landing Page</span></div>
+    <div class="modal-cta-row"><button class="modal-cta-y" onclick="window.open('https://wa.me/905411704781?text=Web/uygulama için bilgi almak istiyorum','_blank')">WhatsApp'tan Yazın</button><button class="modal-cta-o" onclick="scrollTo('#chat');closeModal()">Chat'ten Yazın</button></div>`
+  },
+};
+
+function openModal(key){
+  const d=MODALS[key]; if(!d) return;
+  document.getElementById('mIcon').textContent=d.icon;
+  document.getElementById('mTitle').textContent=d.title;
+  document.getElementById('mTitle').style.color=d.color;
+  document.getElementById('mSub').textContent=d.sub;
+  document.getElementById('mBody').innerHTML=d.body;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){
+  if(e && e.target!==document.getElementById('modalBg')) return;
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal()});
+
+// ── HAMBURGER ─────────────────────────────────────────────────────────────────
+function toggleMob(){
+  document.getElementById('mobMenu').classList.toggle('open');
+  document.getElementById('ham').classList.toggle('open');
+  document.body.style.overflow=document.getElementById('mobMenu').classList.contains('open')?'hidden':'';
+}
+function closeMob(){
+  document.getElementById('mobMenu').classList.remove('open');
+  document.getElementById('ham').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── CHAT ──────────────────────────────────────────────────────────────────────
+const BR={
+  default:["Teşekkürler! Ekibimiz 24 saat içinde sizinle iletişime geçecek ve size özel bütçe hazırlayacak.","Mesajınız alındı. Uzman ekibimiz projenizi değerlendirip en uygun çözümü sunacak.","Harika! Bu konuda deneyimliyiz. Sizi en kısa sürede arayacağız."],
+  video:"🎬 Video prodüksiyon talebinizi aldık! Canlı yayın, klip veya reklam filmi — ekibimiz sizin için en iyi seçeneği sunar.<br><br>Sizi kısa sürede arayacağız.",
+  marka:"🎨 Marka kimliği için doğru yerdesiniz! Logo, renk paleti ve kurumsal rehber dahil komple paket sunuyoruz.<br><br>Yaklaşık bütçeniz nedir?",
+  sosyal:"📱 Sosyal medya paketlerimiz ₺8.000/ay'dan başlıyor. Hangi platformlarda aktif olmak istiyorsunuz?",
+  etkinlik:"🎪 Etkinlik organizasyonu için sahne büyüklüğü, tarih ve katılımcı sayısını paylaşmanız yeterli!",
+  ai:"🤖 Yapay zeka içerik üretimi tam uzmanlık alanımız! Kling, Higgsfield, ElevenLabs ile sinematik kalitede içerik.",
+  film:"🎥 Reklam filmi ve klip prodüksiyonunda 10+ yıllık deneyimle hizmetinizdeyiz. Projenizi anlatın!"
+};
+function getR(m){
+  const t=m.toLowerCase();
+  if(t.includes('video')||t.includes('klip')||t.includes('yayın')) return BR.video;
+  if(t.includes('marka')||t.includes('logo')||t.includes('kimlik')) return BR.marka;
+  if(t.includes('sosyal')||t.includes('instagram')||t.includes('tiktok')) return BR.sosyal;
+  if(t.includes('etkinlik')||t.includes('konser')||t.includes('organizasyon')) return BR.etkinlik;
+  if(t.includes('yapay')||t.includes('ai')||t.includes('zeka')) return BR.ai;
+  if(t.includes('film')||t.includes('reklam filmi')) return BR.film;
+  return BR.default[Math.floor(Math.random()*3)];
+}
+function addMsg(txt,type='bot'){
+  const el=document.getElementById('msgs');
+  const now=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div');
+  d.className='msg'+(type==='u'?' u':'');
+  if(type==='bot') d.innerHTML=`<div class="msg-av">L</div><div><div class="msg-bbl">${txt}</div><div class="msg-t">${now}</div></div>`;
+  else d.innerHTML=`<div><div class="msg-bbl">${txt}</div><div class="msg-t" style="text-align:right">${now}</div></div>`;
+  el.appendChild(d);
+  el.scrollTop=el.scrollHeight;
+}
+function qr(txt){
+  addMsg(txt,'u');
+  document.getElementById('qrs').style.display='none';
+  setTimeout(()=>{ addMsg(getR(txt));
+    setTimeout(()=>addMsg('Hızlı görüşme: <a href="https://wa.me/905411704781?text='+encodeURIComponent(txt)+'" target="_blank" style="color:var(--yellow);font-weight:600">WhatsApp\'tan yazın →</a>'),1000);
+  },600);
+}
+function send(){
+  const i=document.getElementById('ci');
+  const t=i.value.trim(); if(!t) return;
+  addMsg(t,'u'); i.value='';
+  document.getElementById('qrs').style.display='none';
+  setTimeout(()=>{ addMsg(getR(t));
+    setTimeout(()=>addMsg('Hızlı görüşme: <a href="https://wa.me/905411704781?text='+encodeURIComponent(t)+'" target="_blank" style="color:var(--yellow);font-weight:600">WhatsApp\'tan yazın →</a>'),1000);
+  },600);
+}
+
+// ── YARDIMCI ──────────────────────────────────────────────────────────────────
+function scrollTo(id){document.querySelector(id).scrollIntoView({behavior:'smooth'})}
+
+// ── REVEAL ────────────────────────────────────────────────────────────────────
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting) e.target.classList.add('vis')})},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ── NAV SCROLL ────────────────────────────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.borderBottomColor=
+    window.scrollY>40?'rgba(250,182,23,.28)':'rgba(250,182,23,.12)';
+});
+</script>
+</body>
+</html>
